@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Comparte ideas para mejorar los medios de transporte de Panamá.">
+    <title>Transporte en Panamá · Ideas</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script>
+        // Aplica el tema guardado antes de mostrar la página (evita un parpadeo).
+        try {
+            const tema = localStorage.getItem("tema");
+            if (tema) document.documentElement.dataset.theme = tema;
+        } catch {}
+    </script>
+</head>
+<body>
+    <header class="encabezado">
+        <div class="contenedor">
+            <button type="button" id="btnTema" class="btn-tema" aria-label="Cambiar a modo oscuro">🌙</button>
+            <h1><span aria-hidden="true">🚙</span> Métodos de transporte en Panamá</h1>
+            <p class="subtitulo">
+                En esta página puedes ver las rutas del Metro y del MetroBus, y conocer los
+                tipos de transporte que hay en Panamá.
+            </p>
+            <p class="subtitulo">
+                También puedes compartir una idea para mejorar, diseñar o proponer
+                nuevos medios de transporte.
+            </p>
+        </div>
+    </header>
+
+    <section class="contenedor galeria" aria-labelledby="titulo-galeria">
+        <h2 id="titulo-galeria">Transporte en Panamá</h2>
+        <div class="galeria-grid">
+            <figure class="foto con-mapa" data-mapa="metro" role="button" tabindex="0"
+                    aria-label="Metro: ver mapa de rutas">
+                <div class="foto-imagen" data-icono="🚇">
+                    <img src="img/metro.jpg" alt="Metro de Panamá" loading="lazy">
+                </div>
+                <span class="insignia">🗺️ Ver mapa</span>
+                <figcaption>
+                    <strong>Metro</strong>
+                    <p>El primer metro de Centroamérica, inaugurado en 2014. Opera las Líneas 1 y 2, y la Línea 3 está en construcción.</p>
+                </figcaption>
+            </figure>
+            <figure class="foto con-mapa" data-mapa="metrobus" role="button" tabindex="0"
+                    aria-label="MetroBus: ver mapa de rutas">
+                <div class="foto-imagen" data-icono="🚌">
+                    <img src="img/metrobus.jpg" alt="MetroBus en la ciudad de Panamá" loading="lazy">
+                </div>
+                <span class="insignia">🗺️ Ver mapa</span>
+                <figcaption>
+                    <strong>MetroBus</strong>
+                    <p>Red de buses públicos de la capital, operada por MiBus. Se paga con la misma tarjeta recargable del Metro.</p>
+                </figcaption>
+            </figure>
+            <figure class="foto">
+                <div class="foto-imagen" data-icono="🚗">
+                    <img src="img/autos.jpg" alt="Autos en una avenida de Panamá" loading="lazy">
+                </div>
+                <figcaption>
+                    <strong>Autos</strong>
+                    <p>El medio más usado para moverse, lo que causa mucho tráfico en horas pico en vías como la Transístmica.</p>
+                </figcaption>
+            </figure>
+            <figure class="foto">
+                <div class="foto-imagen" data-icono="🚕">
+                    <img src="img/taxi.jpg" alt="Taxi amarillo de Panamá" loading="lazy">
+                </div>
+                <figcaption>
+                    <strong>Taxis</strong>
+                    <p>Fáciles de reconocer por su color amarillo. No usan taxímetro: la tarifa se acuerda antes del viaje.</p>
+                </figcaption>
+            </figure>
+            <figure class="foto">
+                <div class="foto-imagen" data-icono="🚍">
+                    <img src="img/diablo-rojo.jpg" alt="Bus Diablo Rojo decorado" loading="lazy">
+                </div>
+                <figcaption>
+                    <strong>Diablo Rojo</strong>
+                    <p>Antiguos buses escolares de EE. UU. decorados con arte llamativo. En la capital, el MetroBus los reemplazó en gran parte.</p>
+                </figcaption>
+            </figure>
+            <figure class="foto">
+                <div class="foto-imagen" data-icono="🚲">
+                    <img src="img/bicicleta.jpg" alt="Ciclovía en la Cinta Costera" loading="lazy">
+                </div>
+                <figcaption>
+                    <strong>Bicicleta</strong>
+                    <p>Opción ecológica para recorridos cortos, con ciclovías como la de la Cinta Costera.</p>
+                </figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <section class="contenedor buscador" aria-labelledby="titulo-buscador">
+        <h2 id="titulo-buscador">Buscador de estaciones</h2>
+        <div class="tarjeta">
+            <div class="pestanas" role="tablist" aria-label="Sistema de transporte">
+                <button type="button" class="pestana" role="tab" data-modo="metro" aria-selected="true">🚇 Metro</button>
+                <button type="button" class="pestana" role="tab" data-modo="metrobus" aria-selected="false" tabindex="-1">🚌 MetroBus</button>
+            </div>
+            <label for="buscar-estacion" class="sr-only">Nombre de la estación</label>
+            <input id="buscar-estacion" type="search" class="buscador-input"
+                   placeholder="🔎 Escribe una estación, por ejemplo: Albrook" autocomplete="off">
+            <p class="buscador-ayuda" id="buscador-ayuda" aria-live="polite"></p>
+            <ul class="resultados" id="resultados-estaciones"></ul>
+        </div>
+    </section>
+
+    <section class="contenedor historia" aria-labelledby="titulo-historia">
+        <h2 id="titulo-historia">Historia del transporte</h2>
+        <div class="tarjeta">
+            <div class="pestanas" role="tablist" aria-label="Medio de transporte" id="pestanas-historia"></div>
+            <ol class="linea-tiempo" id="linea-tiempo" role="tabpanel"></ol>
+        </div>
+    </section>
+
+    <section class="contenedor curiosos" aria-labelledby="titulo-curiosos">
+        <h2 id="titulo-curiosos">Datos curiosos</h2>
+        <div class="curiosos-grid" id="curiosos-grid"></div>
+    </section>
+
+    <main class="contenedor layout">
+        <section class="tarjeta" aria-labelledby="titulo-form">
+            <h2 id="titulo-form">Comparte una idea</h2>
+
+            <form id="formIdea" novalidate>
+                <div class="campo">
+                    <label for="nombre">Tu nombre o apodo</label>
+                    <input id="nombre" name="nombre" type="text" maxlength="40" autocomplete="nickname" required>
+                </div>
+
+                <div class="campo">
+                    <label for="categoria">Categoría</label>
+                    <select id="categoria" name="categoria">
+                        <option value="Proyecto">Proyecto</option>
+                        <option value="Diseño">Diseño</option>
+                        <option value="Mejora">Mejora</option>
+                        <option value="Concepto">Concepto</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="idea">Tu idea</label>
+                    <textarea id="idea" name="idea" maxlength="280" rows="4" required></textarea>
+                    <small class="contador"><span id="contador">0</span>/280</small>
+                </div>
+
+                <p id="mensaje-error" class="error" role="alert" hidden></p>
+
+                <button type="submit" id="btnEnviar" class="btn-verde">Enviar</button>
+            </form>
+        </section>
+
+        <section id="ideas-publicadas" class="tarjeta" aria-labelledby="titulo-ideas">
+            <div class="cabecera-ideas">
+                <h2 id="titulo-ideas">Ideas publicadas <span aria-hidden="true">🏎️</span></h2>
+                <div class="controles">
+                    <label class="filtro">
+                        <span class="sr-only">Filtrar por categoría</span>
+                        <select id="filtro">
+                            <option value="Todas">Todas</option>
+                            <option value="Proyecto">Proyecto</option>
+                            <option value="Diseño">Diseño</option>
+                            <option value="Mejora">Mejora</option>
+                            <option value="Concepto">Concepto</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </label>
+                    <label class="filtro">
+                        <span class="sr-only">Ordenar ideas</span>
+                        <select id="orden">
+                            <option value="recientes">Más recientes</option>
+                            <option value="votadas">Más votadas</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <ul id="lista-ideas" class="lista-ideas"></ul>
+            <p id="vacio" class="vacio">Aún no hay ideas. ¡Sé el primero en compartir una!</p>
+        </section>
+    </main>
+
+    <!-- Ventana con el mapa de rutas (Metro / MetroBus) -->
+    <dialog id="ventana-mapa" class="ventana" aria-labelledby="ventana-titulo">
+        <div class="ventana-cabecera">
+            <h2 id="ventana-titulo"></h2>
+            <button type="button" class="btn-cerrar" id="btnCerrarMapa" aria-label="Cerrar">✕</button>
+        </div>
+
+        <div class="ventana-cuerpo">
+            <div class="mapa">
+                <iframe id="mapa-iframe" title="Mapa de rutas" loading="lazy"></iframe>
+            </div>
+            <p class="nota">
+                Mapa de <a href="https://www.openstreetmap.org" target="_blank" rel="noopener">OpenStreetMap</a>
+                (capa de transporte). Necesita conexión a internet.
+                <a id="mapa-enlace" href="#" target="_blank" rel="noopener">Abrir mapa grande</a>
+            </p>
+
+            <!-- Contenido del Metro -->
+            <div data-contenido="metro" hidden>
+                <h3>Estaciones</h3>
+                <div class="lineas">
+                    <div>
+                        <h4><span class="punto l1"></span> Línea 1 · Albrook – Villa Zaita</h4>
+                        <ol class="linea l1">
+                            <li>Albrook</li>
+                            <li>5 de Mayo</li>
+                            <li>Lotería</li>
+                            <li>Santo Tomás</li>
+                            <li>Iglesia del Carmen</li>
+                            <li>Vía Argentina</li>
+                            <li>Fernández de Córdoba</li>
+                            <li>El Ingenio</li>
+                            <li>12 de Octubre</li>
+                            <li>Pueblo Nuevo</li>
+                            <li class="conexion">San Miguelito <small>Conexión Línea 2</small></li>
+                            <li>Pan de Azúcar</li>
+                            <li>Los Andes</li>
+                            <li>San Isidro</li>
+                            <li>Villa Zaita</li>
+                        </ol>
+                    </div>
+                    <div>
+                        <h4><span class="punto l2"></span> Línea 2 · San Miguelito – Nuevo Tocumen</h4>
+                        <ol class="linea l2">
+                            <li class="conexion">San Miguelito <small>Conexión Línea 1</small></li>
+                            <li>Paraíso</li>
+                            <li>Cincuentenario</li>
+                            <li>Villa Lucre</li>
+                            <li>El Crisol</li>
+                            <li>Brisas del Golf</li>
+                            <li>Cerro Viento</li>
+                            <li>San Antonio</li>
+                            <li>Pedregal</li>
+                            <li>Don Bosco</li>
+                            <li class="conexion">Corredor Sur <small>Ramal al Aeropuerto: ITSE → Aeropuerto</small></li>
+                            <li>Las Mañanitas</li>
+                            <li>Hospital del Este</li>
+                            <li>Altos de Tocumen</li>
+                            <li>24 de Diciembre</li>
+                            <li>Nuevo Tocumen</li>
+                        </ol>
+                    </div>
+                </div>
+                <p class="nota">
+                    <strong>Línea 3</strong> (Albrook – Ciudad del Futuro, Panamá Oeste) está en construcción.
+                    Más información en <a href="https://www.elmetrodepanama.com" target="_blank" rel="noopener">elmetrodepanama.com</a>.
+                </p>
+            </div>
+
+            <!-- Contenido del MetroBus -->
+            <div data-contenido="metrobus" hidden>
+                <p>
+                    El MetroBus cubre la ciudad con muchas rutas troncales y alimentadoras. En el mapa,
+                    las líneas de colores muestran los recorridos de buses registrados en OpenStreetMap;
+                    acerca el mapa para ver los números de ruta.
+                </p>
+                <p class="nota">
+                    Rutas y horarios oficiales en <a href="https://www.mibus.com.pa" target="_blank" rel="noopener">mibus.com.pa</a>.
+                </p>
+            </div>
+        </div>
+    </dialog>
+
+    <footer class="pie">
+        <div class="contenedor">
+            <p>Proyecto Franklin · Transporte en Panamá</p>
+        </div>
+    </footer>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+</head>
+<body>
+    <header>
+        <h1>🚙 Métodos de transporte en Panamá</h1>
+         <p>En esta pagina puedes compartir una idea de que mejorar, diseñar, u otras en los medios de transporte de panama, o añadir una nueva</p>
+        <p>Comparte una idea</p>
+
+    </header>
+
+    <main>
+        <div class="form-container">
+            <form id="formIdea">
+                <label for="nombre">Tu nombre o apodo</label>
+                <input id="nombre" name="nombre" maxlength="40" required>
+
+                <label for="categoria">Categoría</label>
+                <select id="categoria" name="categoria">
+                    <option>Proyecto</option>
+                    <option>Diseño</option>
+                    <option>Mejora</option>
+                    <option>Concepto</option>
+                    <option>Otro</option>
+                </select>
+
+                <label for="idea">Tu idea</label>
+                <textarea id="idea" name="idea" maxlength="280" rows="3" required></textarea>
+                <button id="btnEnviar" class="btn-verde">Enviar</button>
+            </form>
+
+        <section id="ideas-publicadas">
+            <h2>Ideas publicadas 🏎️</h2>
+            <ul id="lista-ideas"></ul>
+        </section>
+        </main>
+    </body>
+</html>
